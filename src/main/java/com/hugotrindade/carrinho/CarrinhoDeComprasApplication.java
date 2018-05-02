@@ -13,6 +13,7 @@ import com.hugotrindade.carrinho.domain.Cidade;
 import com.hugotrindade.carrinho.domain.Cliente;
 import com.hugotrindade.carrinho.domain.Endereco;
 import com.hugotrindade.carrinho.domain.Estado;
+import com.hugotrindade.carrinho.domain.ItemPedido;
 import com.hugotrindade.carrinho.domain.Pagamento;
 import com.hugotrindade.carrinho.domain.PagamentoComBoleto;
 import com.hugotrindade.carrinho.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.hugotrindade.carrinho.repositories.CidadeRepository;
 import com.hugotrindade.carrinho.repositories.ClienteRepository;
 import com.hugotrindade.carrinho.repositories.EnderecoRepository;
 import com.hugotrindade.carrinho.repositories.EstadoRepository;
+import com.hugotrindade.carrinho.repositories.ItemPedidoRepository;
 import com.hugotrindade.carrinho.repositories.PagamentoRepository;
 import com.hugotrindade.carrinho.repositories.PedidoRepository;
 import com.hugotrindade.carrinho.repositories.ProdutoRepository;
@@ -48,6 +50,8 @@ public class CarrinhoDeComprasApplication implements CommandLineRunner{
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CarrinhoDeComprasApplication.class, args);
@@ -113,6 +117,31 @@ public class CarrinhoDeComprasApplication implements CommandLineRunner{
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 200.0, 1, 2000.0);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.0, 2, 80.0);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.0, 1, 800.0);
+		
+		ped1.addItens(ip1,ip2);
+		ped2.addItens(ip3);
+		
+		p1.addItens(ip1);
+		p2.addItens(ip3);
+		p3.addItens(ip2);
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		

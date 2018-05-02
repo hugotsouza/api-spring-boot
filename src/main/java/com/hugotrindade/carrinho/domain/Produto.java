@@ -3,7 +3,9 @@ package com.hugotrindade.carrinho.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -31,9 +34,11 @@ public class Produto implements Serializable{
 	@ManyToMany
 	@JoinTable(name="PRODUTO_CATEGORIA",
 			joinColumns= @JoinColumn(name = "produto_id"),
-			inverseJoinColumns = @JoinColumn(name = "categoria_id")
-	)
+			inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	private List<Categoria> categorias = new ArrayList<>();
+	
+	@OneToMany(mappedBy="id.produto")
+	private Set<ItemPedido> itens = new HashSet<>(); 
 	
 	public Produto() {}
 
@@ -44,6 +49,13 @@ public class Produto implements Serializable{
 		this.preco = preco;
 	}
 
+	public List<Pedido> getPedidos(){
+		List<Pedido> pedidos = new ArrayList<>();
+		for(ItemPedido item : itens)
+			pedidos.add(item.getPedido());
+		return pedidos;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -77,6 +89,17 @@ public class Produto implements Serializable{
 			this.categorias.add(categoria);
 	}
 	
+	public Set<ItemPedido> getItens() {
+		return Collections.unmodifiableSet(itens);
+	}
+
+	public void addItens(ItemPedido... itens) {
+		for (ItemPedido itemPedido : itens) {
+			this.itens.add(itemPedido);
+		}
+		
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -101,6 +124,8 @@ public class Produto implements Serializable{
 			return false;
 		return true;
 	}
+
+	
 
 	
 }
