@@ -1,12 +1,17 @@
 package com.hugotrindade.carrinho.resources;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.hugotrindade.carrinho.domain.Categoria;
 import com.hugotrindade.carrinho.services.CategoriaService;
 
 @RestController
@@ -20,5 +25,13 @@ public class CategoriaResource {
 	public ResponseEntity<?> listar(@PathVariable Integer id) {
 		
 		return ResponseEntity.ok().body(service.buscar(id));
+	}
+	
+	@PostMapping
+	public ResponseEntity<Void> save(Categoria categoria) {
+		categoria  = service.insert(categoria);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}").buildAndExpand(categoria.getId()).toUri();
+		return ResponseEntity.created(uri).build();
 	}
 }
