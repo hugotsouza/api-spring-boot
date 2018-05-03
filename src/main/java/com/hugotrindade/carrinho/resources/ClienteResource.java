@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hugotrindade.carrinho.domain.Cliente;
 import com.hugotrindade.carrinho.services.ClienteService;
 
 @RestController
@@ -17,8 +18,8 @@ public class ClienteResource {
 	private ClienteService service;
 
 	@GetMapping(value="/{id}")
-	public ResponseEntity<?> listar(@PathVariable Integer id) {
+	public ResponseEntity<Cliente> listar(@PathVariable Integer id) {
 		
-		return ResponseEntity.ok().body(service.buscar(id));
+		return ResponseEntity.ok().body(service.find(id));
 	}
 }
