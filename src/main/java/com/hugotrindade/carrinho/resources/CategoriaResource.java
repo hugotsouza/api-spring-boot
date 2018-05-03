@@ -1,6 +1,8 @@
 package com.hugotrindade.carrinho.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.hugotrindade.carrinho.domain.Categoria;
+import com.hugotrindade.carrinho.dto.CategoriaDTO;
 import com.hugotrindade.carrinho.services.CategoriaService;
 
 @RestController
@@ -25,9 +28,16 @@ public class CategoriaResource {
 	private CategoriaService service;
 
 	@GetMapping(value="/{id}")
-	public ResponseEntity<Categoria> listar(@PathVariable Integer id) {
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		
 		return ResponseEntity.ok().body(service.find(id));
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+		List<Categoria> categorias = service.findAll();
+		List<CategoriaDTO> categoriasDto = categorias.stream().map(c -> new CategoriaDTO(c)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(categoriasDto);
 	}
 	
 	@PostMapping
