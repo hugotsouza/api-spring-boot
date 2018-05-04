@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.hugotrindade.carrinho.domain.Categoria;
-import com.hugotrindade.carrinho.domain.Cliente;
 import com.hugotrindade.carrinho.dto.CategoriaDTO;
 import com.hugotrindade.carrinho.repositories.CategoriaRepository;
 import com.hugotrindade.carrinho.services.exceptions.ObjectNotFoundException;

@@ -1,5 +1,6 @@
 package com.hugotrindade.carrinho.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,14 +12,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.hugotrindade.carrinho.domain.Cliente;
 import com.hugotrindade.carrinho.dto.ClienteDTO;
+import com.hugotrindade.carrinho.dto.ClienteNewDTO;
 import com.hugotrindade.carrinho.services.ClienteService;
 
 @RestController
@@ -32,6 +36,15 @@ public class ClienteResource {
 	public ResponseEntity<Cliente> listar(@PathVariable Integer id) {
 		
 		return ResponseEntity.ok().body(service.find(id));
+	}
+	
+	@PostMapping
+	public ResponseEntity<Void> save(@Valid @RequestBody ClienteNewDTO dto) {
+		Cliente cliente = service.fromDTO(dto);
+		cliente  = service.insert(cliente);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}").buildAndExpand(cliente.getId()).toUri();
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@PutMapping(value="/{id}")
