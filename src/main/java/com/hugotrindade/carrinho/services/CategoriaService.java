@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.hugotrindade.carrinho.domain.Categoria;
+import com.hugotrindade.carrinho.domain.Cliente;
 import com.hugotrindade.carrinho.dto.CategoriaDTO;
 import com.hugotrindade.carrinho.repositories.CategoriaRepository;
 import com.hugotrindade.carrinho.services.exceptions.ObjectNotFoundException;
@@ -33,8 +34,13 @@ public class CategoriaService {
 	}
 	
 	public Categoria update(Categoria categoria) {
-		find(categoria.getId());
-		return repo.save(categoria);
+		Categoria categoriaNova = find(categoria.getId());
+		updateData(categoriaNova, categoria);
+		return repo.save(categoriaNova);
+	}
+	
+	private void updateData(Categoria categoriaNova, Categoria categoria) {
+		categoriaNova.setNome(categoria.getNome());
 	}
 	
 	public void delete(Integer id) {
