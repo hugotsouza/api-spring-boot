@@ -7,7 +7,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import com.hugotrindade.carrinho.domain.Cliente;
+import com.hugotrindade.carrinho.services.validation.ClienteUpdate;
 
+@ClienteUpdate
 public class ClienteDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
