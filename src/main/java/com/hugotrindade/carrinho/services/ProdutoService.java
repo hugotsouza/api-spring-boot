@@ -35,4 +35,10 @@ public class ProdutoService {
 		return repo.findDistinctByNomeContainingAndCategoriasIn(nome, categorias, pageRequest);
 	//	return repo.search(nome, categorias, pageRequest);
 }
+
+	public Produto find(Integer id) {
+		Optional<Produto> optional = repo.findById(id);
+		return optional.orElseThrow(() -> 
+		new ObjectNotFoundException("Objeto não encontrado! id: " + id + ", tipo: " + Produto.class.getName()));
+	}
 }
