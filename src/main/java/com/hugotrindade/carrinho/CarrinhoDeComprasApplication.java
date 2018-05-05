@@ -70,16 +70,39 @@ public class CarrinhoDeComprasApplication implements CommandLineRunner{
 		Produto p1 = new Produto(null, "Computador", 2.000);
 		Produto p2 = new Produto(null, "Impressora", 800.0);
 		Produto p3 = new Produto(null, "Mouse", 80.0);
+		Produto p4 = new Produto(null, "Mesa de escritório", 300.0);
+		Produto p5 = new Produto(null, "Toalha", 50.0);
+		Produto p6 = new Produto(null, "Colcha", 200.0);
+		Produto p7 = new Produto(null, "Tv true color", 1200.0);
+		Produto p8 = new Produto(null, "Roçadeira", 800.0);
+		Produto p9 = new Produto(null, "Abajour", 100.0);
+		Produto p10 = new Produto(null, "Pendente", 180.0);
+		Produto p11 = new Produto(null, "Shampoo", 90.0);
 		
 		c1.addProdutos(p1, p2, p3);
-		c2.addProdutos(p2);
+		c2.addProdutos(p2, p4);
+		c3.addProdutos(p5, p6);
+		c4.addProdutos(p1, p2, p3, p7);
+		c5.addProdutos(p8);
+		c6.addProdutos(p9, p10);
+		c7.addProdutos(p11);
 		
-		p1.addCategorias(c1);
-		p2.addCategorias(c1,c2);
-		p3.addCategorias(c1);
+				
+		
+		p1.addCategorias(c1, c4);
+		p2.addCategorias(c1,c2, c4);
+		p3.addCategorias(c1, c4);
+		p4.addCategorias(c2);
+		p5.addCategorias(c3);
+		p6.addCategorias(c3);
+		p7.addCategorias(c4);
+		p8.addCategorias(c5);
+		p9.addCategorias(c6);
+		p10.addCategorias(c6);
+		p11.addCategorias(c7);
 		
 		categoriaRepository.saveAll(Arrays.asList(c1, c2, c3, c4, c5, c6, c7));
-		produtoRepository.saveAll(Arrays.asList(p1,p2,p3));
+		produtoRepository.saveAll(Arrays.asList(p1,p2,p3, p4, p5, p6, p7, p8, p9, p10, p11));
 		
 		
 		Estado est1 = new Estado(null, "Minas Gerais");
