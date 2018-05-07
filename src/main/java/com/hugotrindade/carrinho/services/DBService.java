@@ -20,6 +20,7 @@ import com.hugotrindade.carrinho.domain.PagamentoComCartao;
 import com.hugotrindade.carrinho.domain.Pedido;
 import com.hugotrindade.carrinho.domain.Produto;
 import com.hugotrindade.carrinho.domain.enums.EstadoPagamento;
+import com.hugotrindade.carrinho.domain.enums.Perfil;
 import com.hugotrindade.carrinho.domain.enums.TipoCliente;
 import com.hugotrindade.carrinho.repositories.CategoriaRepository;
 import com.hugotrindade.carrinho.repositories.CidadeRepository;
@@ -33,7 +34,7 @@ import com.hugotrindade.carrinho.repositories.ProdutoRepository;
 
 @Service
 public class DBService {
-	
+
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 	@Autowired
@@ -54,9 +55,8 @@ public class DBService {
 	private ItemPedidoRepository itemPedidoRepository;
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-	
 
-	public void instantiateDatabase() throws ParseException{
+	public void instantiateDatabase() throws ParseException {
 		Categoria c1 = new Categoria(null, "Informática");
 		Categoria c2 = new Categoria(null, "Escritório");
 		Categoria c3 = new Categoria(null, "Cama, mesa e banho");
@@ -113,16 +113,25 @@ public class DBService {
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(cid1, cid2, cid3));
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "hugotrindade17@gmail.com", "36378912377", TipoCliente.PESSOA_FISICA, encoder.encode("123"));
+		Cliente cli1 = new Cliente(null, "Maria Silva", "hugotrindade17@gmail.com", "36378912377",
+				TipoCliente.PESSOA_FISICA, encoder.encode("123"));
 		cli1.addTelefones("33426527", "55327433");
+
+		Cliente cli2 = new Cliente(null, "Ana Costa", "nelio.iftm@gmail.com", "31628382740", TipoCliente.PESSOA_FISICA,encoder.encode("123"));
+		cli2.getTelefones().addAll(Arrays.asList("93883321", "34252625"));
+		cli2.addPerfil(Perfil.ADMIN);
 
 		Endereco e1 = new Endereco(null, "Rua Flores", "300", "apto 303", "São Gonçalo", "38220834", cli1, cid1);
 		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38228837", cli1, cid2);
-
+		Endereco e3 = new Endereco(null, "Avenida Floriano", "2106", null, "Centro", "281777012", cli2, cid2);
+		
 		cli1.addEnderecos(e1, e2);
-
+		cli2.addEnderecos(e3);
+		
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2, e3));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
