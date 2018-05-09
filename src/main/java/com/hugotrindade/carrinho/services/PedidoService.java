@@ -19,6 +19,7 @@ import com.hugotrindade.carrinho.repositories.PagamentoRepository;
 import com.hugotrindade.carrinho.repositories.PedidoRepository;
 import com.hugotrindade.carrinho.security.UserSS;
 import com.hugotrindade.carrinho.services.exceptions.AuthorizationException;
+import com.hugotrindade.carrinho.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class PedidoService {
@@ -42,9 +43,10 @@ public class PedidoService {
 	private EmailService emailService;
 	
 	public Pedido find(Integer id) {
+		
 		Optional<Pedido> optional = repo.findById(id);
 		return optional.orElseThrow(() -> 
-		new ObjectNotFoundException("Objeto não encontrado! id: "  id  ", tipo: "  Pedido.class.getName()));
+		new ObjectNotFoundException("Objeto não encontrado! id: " + id + ", tipo: " + Pedido.class.getName()));
 	}
 	
 	public Pedido insert(Pedido pedido) {
