@@ -14,11 +14,14 @@ import org.springframework.stereotype.Service;
 import com.hugotrindade.carrinho.domain.Cidade;
 import com.hugotrindade.carrinho.domain.Cliente;
 import com.hugotrindade.carrinho.domain.Endereco;
+import com.hugotrindade.carrinho.domain.enums.Perfil;
 import com.hugotrindade.carrinho.domain.enums.TipoCliente;
 import com.hugotrindade.carrinho.dto.ClienteDTO;
 import com.hugotrindade.carrinho.dto.ClienteNewDTO;
 import com.hugotrindade.carrinho.repositories.ClienteRepository;
 import com.hugotrindade.carrinho.repositories.EnderecoRepository;
+import com.hugotrindade.carrinho.security.UserSS;
+import com.hugotrindade.carrinho.services.exceptions.AuthorizationException;
 import com.hugotrindade.carrinho.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -32,6 +35,11 @@ public class ClienteService {
 	private BCryptPasswordEncoder encoder;
 	
 	public Cliente find(Integer id) {
+		UserSS user = UserService.authenticated();
+				if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+					throw new AuthorizationException("Acesso negado");
+		
+		}
 		Optional<Cliente> optional = repo.findById(id);
 		return optional.orElseThrow(() -> 
 		new ObjectNotFoundException("Objeto não encontrado! id: " + id + ", tipo: " + Cliente.class.getName()));
