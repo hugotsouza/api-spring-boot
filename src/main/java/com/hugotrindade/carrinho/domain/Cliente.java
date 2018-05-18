@@ -38,6 +38,8 @@ public class Cliente implements Serializable {
 	private Integer tipo;
 	@JsonIgnore
 	private String senha;
+	
+	private String imageUrl;
 
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
@@ -178,6 +180,14 @@ public class Cliente implements Serializable {
 			this.pedidos.add(pedido);
 		}
 
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 }
