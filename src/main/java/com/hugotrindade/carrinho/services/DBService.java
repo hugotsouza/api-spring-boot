@@ -161,7 +161,7 @@ public class DBService {
 		p49.addCategorias( c1);
 		p50.addCategorias( c1);	
 		
-		 c1.addProdutos(p1, p2, p3);
+		c1.addProdutos(p1, p2, p3);
 		c2.addProdutos(p2, p4);
 		c3.addProdutos(p5, p6);
 		c4.addProdutos(p1, p2, p3, p7);
