@@ -25,6 +25,8 @@ import com.hugotrindade.carrinho.domain.Categoria;
 import com.hugotrindade.carrinho.dto.CategoriaDTO;
 import com.hugotrindade.carrinho.services.CategoriaService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value = "/categorias")
 public class CategoriaResource {
@@ -32,12 +34,14 @@ public class CategoriaResource {
 	@Autowired
 	private CategoriaService service;
 
+	@ApiOperation(value="Busca por id")
 	@GetMapping(value="/{id}")
 	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		return ResponseEntity.ok().body(service.find(id));
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value="Insere categoria")
 	@PostMapping
 	public ResponseEntity<Void> save(@Valid @RequestBody CategoriaDTO dto) {
 		Categoria categoria = service.fromDTO(dto);
@@ -48,6 +52,7 @@ public class CategoriaResource {
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value="Atualiza categoria")
 	@PutMapping(value="/{id}")
 	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO dto, @PathVariable Integer id) {
 		
@@ -58,6 +63,7 @@ public class CategoriaResource {
 		
 	}
 	
+	@ApiOperation(value="Retorna todas categorias")
 	@GetMapping
 	public ResponseEntity<List<CategoriaDTO>> findAll() {
 		List<Categoria> categorias = service.findAll();
@@ -65,6 +71,7 @@ public class CategoriaResource {
 		return ResponseEntity.ok().body(categoriasDto);
 	}
 	
+	@ApiOperation(value="Retorna todas categorias com paginação")
 	@GetMapping(value="/page")
 	public ResponseEntity<Page<CategoriaDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0")Integer page, 
@@ -78,6 +85,7 @@ public class CategoriaResource {
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value="Remove categoria")
 	@DeleteMapping(value="/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
